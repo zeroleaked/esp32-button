@@ -7,9 +7,12 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include "driver/gpio.h"
+
+#define LOG_LOCAL_LEVEL ESP_LOG_WARN
 #include "esp_log.h"
 
 #include "button.h"
+
 
 #define TAG "BUTTON"
 
@@ -112,7 +115,7 @@ QueueHandle_t pulled_button_init(unsigned long long pin_select, gpio_pull_mode_t
 
     // Scan the pin map to determine number of pins
     pin_count = 0;
-    for (int pin=0; pin<=39; pin++) {
+    for (int pin=0; pin<=42; pin++) {
         if ((1ULL<<pin) & pin_select) {
             pin_count++;
         }
@@ -124,7 +127,7 @@ QueueHandle_t pulled_button_init(unsigned long long pin_select, gpio_pull_mode_t
 
     // Scan the pin map to determine each pin number, populate the state
     uint32_t idx = 0;
-    for (int pin=0; pin<=39; pin++) {
+    for (int pin=0; pin<=42; pin++) {
         if ((1ULL<<pin) & pin_select) {
             ESP_LOGI(TAG, "Registering button input: %d", pin);
             debounce[idx].pin = pin;
